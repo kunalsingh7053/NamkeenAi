@@ -110,35 +110,32 @@ export const AuthProvider = ({ children }) => {
 
   }
     // ✅ Update profile function
-  const updateProfile = async (data) => {
-    setLoading(true);
-    setError(null);
-    try {
-      const res = await axios.patch(
-        "https://namkeenai.onrender.com/api/auth/profile/update",
-        data,
-        { withCredentials: true }
-      );
-      // Update user in context
-      setUser({
-        ...user,
-        fullName: {
-          firstName: res.data.user.fullName.split(" ")[0],
-          lastName: res.data.user.fullName.split(" ")[1] || "",
-        },
-      });
-      toast.success(res.data.message || "Profile updated successfully!");
-      return { success: true, user: res.data.user };
-    } catch (err) {
-      const message =
-        (err.response?.data?.message || err.response?.data || "Update failed!") + "";
-      setError(message);
-      toast.error(message);
-      return { success: false, message };
-    } finally {
-      setLoading(false);
-    }
-  };
+ const updateProfile = async (data) => {
+  setLoading(true);
+  setError(null);
+  try {
+    const res = await axios.patch(
+      "https://namkeenai.onrender.com/api/auth/profile/update",
+      data,
+      { withCredentials: true }
+    );
+
+    // ✅ yahan directly backend ka user object save karo
+    setUser(res.data.user);
+
+    toast.success(res.data.message || "Profile updated successfully!");
+    return { success: true, user: res.data.user };
+  } catch (err) {
+    const message =
+      (err.response?.data?.message || err.response?.data || "Update failed!") + "";
+    setError(message);
+    toast.error(message);
+    return { success: false, message };
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 
   return (
