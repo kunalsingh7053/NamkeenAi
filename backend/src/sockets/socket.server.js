@@ -7,13 +7,13 @@ const messageModel = require("../models/message.model");
 const { createMemory, queryMemory } = require("../services/vector.service");
 
 function initSocketServer(httpServer) {
-  const io = new Server(httpServer, {
-    cors: {
-      origin: "http://localhost:5173", // frontend URL
-      methods: ["GET", "POST"],
-      credentials: true
-    }
-  });
+  const io = require("socket.io")(server, {
+  cors: {
+    origin: "https://namkeenai-1-frontend.onrender.com",
+    methods: ["GET", "POST"]
+  }
+});
+
 
   // Authenticate socket connections
   io.use(async (socket, next) => {

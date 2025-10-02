@@ -8,9 +8,11 @@ const app = express();
 app.use(express.json())
 app.use(cookieparser())
 app.use(cors({
-    origin: "http://localhost:5173",
-    credentials: true,
-}))
+  origin: "https://namkeenai-1-frontend.onrender.com",
+  methods: ["GET", "POST", "PUT", "DELETE"],
+  credentials: true
+}));
+
 
 //using routes 
 app.use('/api/auth',authRoutes)
