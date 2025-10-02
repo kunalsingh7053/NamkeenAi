@@ -23,7 +23,12 @@ async function registerUser(req,res){
         password:await bcrypt.hash(password,10)
     })
    const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
-    res.cookie("token",token)
+   res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,       // Render uses HTTPS → must be true
+  sameSite: "none"    // Needed for cross-site requests
+});
+
     res.status(201).json({
   message: "User registered successfully",
   user: {
@@ -48,7 +53,12 @@ async function loginUser(req,res){
         return res.status(400).json({message:"Invalid  Password"})
      }
      const token = jwt.sign({id:user._id},process.env.JWT_SECRET)
-     res.cookie("token",token) 
+ res.cookie("token", token, {
+  httpOnly: true,
+  secure: true,       // 🔥 Render uses HTTPS → must be true
+  sameSite: "none"    // 🔥 needed for cross-site cookies
+});
+
  res.status(200).json({
   message: "Login successful",
   user: {
@@ -60,7 +70,13 @@ async function loginUser(req,res){
 
 }
 async function logoutUser(req,res){
-    res.clearCookie("token");
+   res.clearCookie("token", {
+  httpOnly: true,
+  secure: true,
+  sameSite: "none"
+});
+res.status(200).json({ message: "Logout successful" });
+
     res.status(200).json({message:"Logout successful"});
 
 
