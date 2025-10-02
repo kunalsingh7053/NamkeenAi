@@ -10,8 +10,8 @@ app.use(cookieparser())
 
 app.use(cors({
   origin: ["https://namkeenai-1-frontend.onrender.com", "http://localhost:5173"],
-  methods: ["GET", "POST", "PUT", "DELETE"],
-  credentials: true,   // 🔥 must be true for cookies/session
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"], // 🔥 added PATCH
+  credentials: true,
 }));
 
 
