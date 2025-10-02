@@ -8,8 +8,8 @@ import axios from 'axios';
 import { io } from 'socket.io-client';
 
 // Initialize Socket.IO client
-const socket = io("http://localhost:3000", { withCredentials: true });
-
+const socket = io("https://namkeenai.onrender.com", { withCredentials: true });
+ 
 const Home = () => {
   const [chatSessions, setChatSessions] = useState([]);
   const [activeChatId, setActiveChatId] = useState(null);
@@ -23,7 +23,7 @@ const Home = () => {
   const fetchMessages = async (chatId) => {
     setLoadingMessages(true);
     try {
-      const res = await axios.get(`http://localhost:3000/api/chat/messages/${chatId}`, { withCredentials: true });
+      const res = await axios.get(`https://namkeenai.onrender.com/api/chat/messages/${chatId}`, { withCredentials: true });
       const messages = res.data.messages.map(msg => ({
         sender: msg.role === 'user' ? 'user' : 'ai',
         text: msg.content
@@ -41,7 +41,7 @@ const Home = () => {
   useEffect(() => {
     const loadChats = async () => {
       try {
-        const res = await axios.get('http://localhost:3000/api/chat', { withCredentials: true });
+        const res = await axios.get('https://namkeenai.onrender.com/api/chat', { withCredentials: true });
         const chats = await Promise.all(res.data.chats.map(async (chat) => {
           const messages = await fetchMessages(chat._id);
           return {
@@ -107,7 +107,7 @@ const Home = () => {
   const handleModalSubmit = async (e) => {
     e.preventDefault();
     let chatName = chatNameInput.trim() || `Chat ${chatSessions.length + 1}`;
-    const res = await axios.post('http://localhost:3000/api/chat', { title: chatName }, { withCredentials: true });
+    const res = await axios.post('https://namkeenai.onrender.com/api/chat', { title: chatName }, { withCredentials: true });
     const newChat = {
       id: res.data.chat._id,
       title: res.data.chat.title,
@@ -121,7 +121,7 @@ const Home = () => {
 
   // Delete chat
   const handleDeleteChat = async (id) => {
-    await axios.delete(`http://localhost:3000/api/chat/${id}`, { withCredentials: true });
+    await axios.delete(`https://namkeenai.onrender.com/api/chat/${id}`, { withCredentials: true });
     setChatSessions(prev => prev.filter(chat => chat.id !== id));
     if (activeChatId === id) {
       const remaining = chatSessions.filter(chat => chat.id !== id);

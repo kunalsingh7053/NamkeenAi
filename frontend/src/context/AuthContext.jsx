@@ -8,12 +8,12 @@ export const AuthProvider = ({ children }) => {
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
+ 
   // ✅ Auto fetch profile on app load
   useEffect(() => {
     const fetchProfile = async () => {
       try {
-        const res = await axios.get("http://localhost:3000/api/auth/profile", {
+        const res = await axios.get("https://namkeenai.onrender.com/api/auth/profile", {
           withCredentials: true,
         });
         setUser(res.data); // user profile save once
@@ -36,7 +36,7 @@ export const AuthProvider = ({ children }) => {
 
   try {
     const res = await axios.post(
-      "http://localhost:3000/api/auth/register",
+      "https://namkeenai.onrender.com/api/auth/register",
       {
         email: data.email,
         fullName: { firstName: data.firstName, lastName: data.lastName },
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }) => {
       setLoading(true);
       setError(null);
       const res = await axios.post(
-        "http://localhost:3000/api/auth/login",
+        "https://namkeenai.onrender.com/api/auth/login",
         { email, password },
         { withCredentials: true }
       );
@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }) => {
   // ✅ Logout function
   const logout = async () => {
     try {
-      await axios.post("http://localhost:3000/api/auth/logout", {}, { withCredentials: true });
+      await axios.post("https://namkeenai.onrender.com/api/auth/logout", {}, { withCredentials: true });
       setUser(null);
 
     } catch (err) {
@@ -100,7 +100,7 @@ export const AuthProvider = ({ children }) => {
   const deleteAccount = async () => {
 
  if (window.confirm("Are you sure you want to delete your account?")) {
-      axios.delete("http://localhost:3000/api/auth/profile", { withCredentials: true })
+      axios.delete("https://namkeenai.onrender.com/api/auth/profile", { withCredentials: true })
         .then(() => {
           alert("User deleted successfully!");
                   setUser(null);
@@ -115,7 +115,7 @@ export const AuthProvider = ({ children }) => {
     setError(null);
     try {
       const res = await axios.patch(
-        "http://localhost:3000/api/auth/profile/update",
+        "https://namkeenai.onrender.com/api/auth/profile/update",
         data,
         { withCredentials: true }
       );
