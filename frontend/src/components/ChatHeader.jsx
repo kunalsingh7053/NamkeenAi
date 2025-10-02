@@ -57,12 +57,14 @@ const ChatHeader = () => {
             </svg>
           </button>
         )}
-     <div className="w-10 h-10 rounded-full border-2 border-white overflow-hidden cursor-pointer">
+<div 
+  className="w-10 h-10 rounded-full border-2 border-white overflow-hidden cursor-pointer"
+  onClick={() => navigate('/profile')}
+>
   <img 
     src="/images/shield-user-fill.png" 
     alt="Profile" 
-    className="w-full h-full object-cover"
-    onClick={() => navigate('/profile')}
+    className={`w-full h-full object-cover ${mode === 'dark' ? 'invert' : ''}`}
   />
 </div>
 

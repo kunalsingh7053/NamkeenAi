@@ -19,12 +19,14 @@ const UpdateProfile = () => {
       return;
     }
 
-    reset({
-      firstName: user.fullName?.firstName || "",
-      lastName: user.fullName?.lastName || "",
-      oldpassword: "",
-      newpassword: "",
-    });
+reset({
+  firstName: user.fullName?.firstName || "",
+  lastName: user.fullName?.lastName || "",
+  oldPassword: "",
+  newPassword: "",
+});
+
+
 
     setLoading(false);
   }, [user, navigate, reset]);
@@ -32,10 +34,12 @@ const UpdateProfile = () => {
   // Form submit
   const onSubmit = async (data) => {
     // Check if anything changed
-    const isChanged =
-      data.firstName !== user.fullName.firstName ||
-      data.lastName !== user.fullName.lastName ||
-      (data.newpassword && data.newpassword.length > 0);
+  // On submit check
+const isChanged =
+  data.firstName !== user.fullName.firstName ||
+  data.lastName !== user.fullName.lastName ||
+  (data.newPassword && data.newPassword.length > 0);
+
 
     if (!isChanged) {
       setMessage("You did not change anything!");
@@ -87,23 +91,24 @@ const UpdateProfile = () => {
         {/* Old Password */}
         <div>
           <label className="block text-base font-medium mb-1">Old Password</label>
-          <input
-            type="password"
-            {...register("oldpassword")}
-            className="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter old password"
-          />
+        {/* Old Password */}
+<input
+  type="password"
+  {...register("oldPassword")}
+  className="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-400"
+  placeholder="Enter old password"
+/>
         </div>
 
         {/* New Password */}
         <div>
           <label className="block text-base font-medium mb-1">New Password</label>
-          <input
-            type="password"
-            {...register("newpassword")}
-            className="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-400"
-            placeholder="Enter new password"
-          />
+       <input
+  type="password"
+  {...register("newPassword")}
+  className="w-full px-4 py-2 rounded border focus:outline-none focus:ring-2 focus:ring-blue-400"
+  placeholder="Enter new password"
+/>
         </div>
 
         <button

@@ -118,46 +118,51 @@ async function removeProfileUser(req, res) {
 async function updateProfileUser(req, res) {
   try {
     const userId = req.user._id; // from auth middleware
-    const user = await userModel.findOne({ _id: userId });
+    const user = await userModel.findById(userId);
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
 
-    const { firstName, lastName, oldpassword, newpassword } = req.body;
+    // ✅ Match frontend naming convention
+    const { firstName, lastName, oldPassword, newPassword } = req.body;
 
     // Verify old password if new password is provided
-    if (newpassword) {
-      const isValid = await bcrypt.compare(oldpassword, user.password);
+    if (newPassword) {
+      const isValid = await bcrypt.compare(oldPassword, user.password);
       if (!isValid) {
-        return res.status(400).json({ message: "Invalid Old Password" });
+        return res.status(400).json({ message: "Invalid old password" });
       }
     }
 
     // Build update object
     const updateData = {};
-    if (firstName) updateData['fullName.firstName'] = firstName;
-    if (lastName) updateData['fullName.lastName'] = lastName;
-    if (newpassword) updateData.password = await bcrypt.hash(newpassword, 10);
+    if (firstName) updateData["fullName.firstName"] = firstName;
+    if (lastName) updateData["fullName.lastName"] = lastName;
+    if (newPassword) updateData.password = await bcrypt.hash(newPassword, 10);
 
-    // Update user
+    // Update user in DB
     const updatedUser = await userModel.findByIdAndUpdate(
       userId,
       { $set: updateData },
       { new: true }
     );
 
-    res.status(200).json({
+    return res.status(200).json({
+      success: true,
       message: "Profile updated successfully!",
       user: {
         _id: updatedUser._id,
         email: updatedUser.email,
-        fullName: `${updatedUser.fullName.firstName} ${updatedUser.fullName.lastName}`,
+        fullName: {
+          firstName: updatedUser.fullName.firstName,
+          lastName: updatedUser.fullName.lastName,
+        },
       },
     });
   } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: "Server error" });
+    console.error("Update profile error:", error);
+    return res.status(500).json({ success: false, message: "Server error" });
   }
 }
 
