@@ -34,7 +34,7 @@ export const AuthProvider = ({ children }) => {
   setLoading(true);
   setError(null);
 
-  try {
+  try { 
     const res = await axios.post(
       "https://namkeenai.onrender.com/api/auth/register",
       {

@@ -13,7 +13,7 @@ async function registerUser(req,res){
     if(isUserAlereadyExists)
     {
         return res.status(400).json({message:"👦User already registered! Please login."});
-
+ 
     }
     const user = await userModel.create({
         fullName:{ 
