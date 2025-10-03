@@ -1,4 +1,5 @@
-import React from 'react';
+import React from "react";
+import { Menu, X } from "lucide-react"; // ✅ lucide-react icons
 
 const Sidebar = ({
   chatSessions,
@@ -7,7 +8,7 @@ const Sidebar = ({
   handleCreateChat,
   sidebarOpen,
   toggleSidebar,
-  handleDeleteChat
+  handleDeleteChat,
 }) => (
   <>
     {/* Overlay for mobile when sidebar is open */}
@@ -18,21 +19,23 @@ const Sidebar = ({
       ></div>
     )}
 
+    {/* Hamburger Button (Mobile Only, top left corner) */}
+    <button
+      className="fixed top-4 left-4 z-50 md:hidden p-2 rounded bg-gray-200 dark:bg-gray-800"
+      onClick={toggleSidebar}
+    >
+      {sidebarOpen ? <X size={24} /> : <Menu size={24} />} 
+    </button>
+
     <div
       className={`fixed md:fixed top-0 left-0 h-full w-72 max-w-[90vw] shadow-lg z-40 transition-transform duration-300
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0
-        ${sidebarOpen ? 'block' : 'hidden'} md:block md:w-64 rounded-r-xl md:rounded-none`}
-      style={{ background: 'var(--color-bg)', color: 'var(--color-text)' }}
+        ${sidebarOpen ? "translate-x-0" : "-translate-x-full"} md:translate-x-0
+        ${sidebarOpen ? "block" : "hidden"} md:block md:w-64 rounded-r-xl md:rounded-none`}
+      style={{ background: "var(--color-bg)", color: "var(--color-text)" }}
     >
       {/* Header */}
       <div className="flex items-center justify-between p-4 border-b">
         <span className="font-bold text-lg">Chats</span>
-        <button
-          className="md:hidden text-2xl font-bold"
-          onClick={toggleSidebar}
-        >
-          <span className="text-black dark:text-white">×</span>
-        </button>
       </div>
 
       {/* New Chat */}
@@ -51,27 +54,28 @@ const Sidebar = ({
           const lastMsg =
             chat.messages.length > 0
               ? chat.messages[chat.messages.length - 1].text
-              : '';
+              : "";
           return (
             <li
               key={chat.id}
               className={`relative w-full p-2 rounded flex items-center 
                 hover:bg-gray-100 dark:hover:bg-gray-700 cursor-pointer
-                ${activeChatId === chat.id ? 'bg-blue-100 dark:bg-blue-800 font-bold' : ''}`}
+                ${
+                  activeChatId === chat.id
+                    ? "bg-blue-100 dark:bg-blue-800 font-bold"
+                    : ""
+                }`}
             >
               <div
                 className="flex-1 pr-4 overflow-hidden"
                 onClick={() => handleSelectChat(chat.id)}
               >
-                <div
-                  className="font-semibold truncate"
-                  title={chat.title}
-                >
-                  {chat.title || 'Untitled Chat'}
+                <div className="font-semibold truncate" title={chat.title}>
+                  {chat.title || "Untitled Chat"}
                 </div>
                 <div
                   className="text-xs text-gray-500 dark:text-gray-400 truncate"
-                  title={lastMsg || 'No messages yet'}
+                  title={lastMsg || "No messages yet"}
                 >
                   {lastMsg}
                 </div>
